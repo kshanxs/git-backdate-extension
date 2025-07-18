@@ -3,15 +3,19 @@
   "displayName": "Git Backdate",
   "description": "A VS Code extension to commit and push files with backdated timestamps through a beautiful GUI interface",
   "version": "0.0.1",
-  "publisher": "your-publisher-name",
+  "publisher": "kshanxs",
   "author": {
-    "name": "Your Name",
-    "email": "your.email@example.com"
+    "name": "Shubhanshu Shukla",
+    "email": "shubhanshu@example.com"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/git-backdate-extension.git"
+    "url": "https://github.com/kshanxs/git-backdate-extension.git"
+  },
+  "homepage": "https://github.com/kshanxs/git-backdate-extension#readme",
+  "bugs": {
+    "url": "https://github.com/kshanxs/git-backdate-extension/issues"
   },
   "keywords": [
     "git",
