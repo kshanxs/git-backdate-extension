@@ -107,14 +107,16 @@ export class GitBackdatePanel {
             }
 
             this._panel.webview.postMessage({
-                type: 'success',
+                type: 'backdateResult',
+                success: true,
                 message: 'Commit created successfully!'
             });
 
         } catch (error) {
             this._panel.webview.postMessage({
-                type: 'error',
-                message: error instanceof Error ? error.message : 'An unknown error occurred'
+                type: 'backdateResult',
+                success: false,
+                error: error instanceof Error ? error.message : 'An unknown error occurred'
             });
         }
     }
@@ -162,13 +164,15 @@ export class GitBackdatePanel {
         try {
             await this._gitService.pushToRemote();
             this._panel.webview.postMessage({
-                type: 'success',
+                type: 'pushResult',
+                success: true,
                 message: 'Successfully pushed to remote repository!'
             });
         } catch (error) {
             this._panel.webview.postMessage({
-                type: 'error',
-                message: error instanceof Error ? error.message : 'Failed to push to remote'
+                type: 'pushResult',
+                success: false,
+                error: error instanceof Error ? error.message : 'Failed to push to remote'
             });
         }
     }
@@ -177,15 +181,17 @@ export class GitBackdatePanel {
         try {
             await this._gitService.publishBranch();
             this._panel.webview.postMessage({
-                type: 'success',
+                type: 'publishResult',
+                success: true,
                 message: 'Successfully published branch to remote repository!'
             });
             // Refresh status after publishing
             await this._sendGitStatus();
         } catch (error) {
             this._panel.webview.postMessage({
-                type: 'error',
-                message: error instanceof Error ? error.message : 'Failed to publish branch'
+                type: 'publishResult',
+                success: false,
+                error: error instanceof Error ? error.message : 'Failed to publish branch'
             });
         }
     }
@@ -253,15 +259,10 @@ export class GitBackdatePanel {
                 <div class="container">
                     <header>
                         <h1>🕰️ Git Backdate</h1>
-                        <p>Commit and push files with custom backdated timestamps</p>
+                        <p>Commit files with custom backdated timestamps</p>
                     </header>
 
                     <div id="gitStatus" class="status-section"></div>
-
-                    <div id="warningSection" class="warning-section" style="display: none;">
-                        <h3>⚠️ Warning</h3>
-                        <div id="warningMessage"></div>
-                    </div>
 
                     <div class="form-section">
                         <div class="input-group">
@@ -271,35 +272,10 @@ export class GitBackdatePanel {
 
                         <div class="input-group">
                             <label for="backdateInput">Backdate to:</label>
-                            <input type="datetime-local" id="backdateInput" required>
+                            <input type="datetime-local" id="backdateInput" max="" required>
                         </div>
 
                         <div class="input-group">
-                            <label>Scope:</label>
-                            <div class="radio-group">
-                                <label>
-                                    <input type="radio" name="scope" value="file" id="scopeFile">
-                                    Selected File
-                                </label>
-                                <label>
-                                    <input type="radio" name="scope" value="multiple" id="scopeMultiple">
-                                    Multiple Files
-                                </label>
-                                <label>
-                                    <input type="radio" name="scope" value="all" id="scopeAll" checked>
-                                    Entire Project
-                                </label>
-                            </div>
-                        </div>
-
-                        <div id="fileSelection" class="input-group" style="display: none;">
-                            <label for="fileSelect">Select File:</label>
-                            <select id="fileSelect">
-                                <option value="">Choose a file...</option>
-                            </select>
-                        </div>
-
-                        <div id="multipleFileSelection" class="input-group" style="display: none;">
                             <label>Select Files to Commit:</label>
                             <div id="fileCheckboxList" class="file-checkbox-list">
                                 <!-- Checkboxes will be populated here -->
@@ -307,6 +283,7 @@ export class GitBackdatePanel {
                             <div class="file-selection-actions">
                                 <button type="button" id="selectAllFiles" class="link-button">Select All</button>
                                 <button type="button" id="selectNoneFiles" class="link-button">Select None</button>
+                                <span id="fileCountIndicator" class="file-count">0 files selected</span>
                             </div>
                         </div>
 
@@ -319,15 +296,7 @@ export class GitBackdatePanel {
 
                         <div class="button-group">
                             <button id="backdateBtn" class="primary-button">Create Backdated Commit</button>
-                            <button id="refreshBtn" class="secondary-button">Refresh Status</button>
-                        </div>
-
-                        <div id="pushSection" class="push-section" style="display: none;">
-                            <h3>Push Options</h3>
-                            <div class="button-group">
-                                <button id="pushBtn" class="secondary-button">Push to Remote</button>
-                                <button id="publishBtn" class="secondary-button">Publish Branch</button>
-                            </div>
+                            <button id="refreshBtn" class="secondary-button">Refresh Files</button>
                         </div>
                     </div>
 

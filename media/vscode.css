@@ -41,6 +41,11 @@ header p {
 	background-color: var(--vscode-editor-inactiveSelectionBackground);
 	border-radius: 6px;
 	border-left: 4px solid var(--vscode-focusBorder);
+	display: none; /* Hidden by default, shown when populated */
+}
+
+.status-section.populated {
+	display: block;
 }
 
 .form-section {
