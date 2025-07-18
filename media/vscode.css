@@ -1,0 +1,212 @@
+body {
+	font-family: var(--vscode-font-family);
+	font-weight: var(--vscode-font-weight);
+	font-size: var(--vscode-font-size);
+	margin: 0;
+	padding: 0;
+	color: var(--vscode-foreground);
+	background-color: var(--vscode-editor-background);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.container {
+	padding: 20px;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+header {
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+header h1 {
+	font-size: 2em;
+	font-weight: bold;
+	margin-bottom: 10px;
+	color: var(--vscode-foreground);
+}
+
+header p {
+	color: var(--vscode-descriptionForeground);
+	font-size: 1.1em;
+}
+
+.status-section {
+	margin-bottom: 25px;
+	padding: 15px;
+	background-color: var(--vscode-editor-inactiveSelectionBackground);
+	border-radius: 6px;
+	border-left: 4px solid var(--vscode-focusBorder);
+}
+
+.form-section {
+	margin-bottom: 25px;
+}
+
+.input-group {
+	margin-bottom: 20px;
+}
+
+.input-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 600;
+	color: var(--vscode-foreground);
+}
+
+.input-group input[type="text"],
+.input-group input[type="datetime-local"],
+.input-group select {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid var(--vscode-input-border);
+	background-color: var(--vscode-input-background);
+	color: var(--vscode-input-foreground);
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="datetime-local"]:focus,
+.input-group select:focus {
+	outline: none;
+	border-color: var(--vscode-focusBorder);
+	box-shadow: 0 0 0 2px var(--vscode-focusBorder);
+}
+
+.radio-group {
+	display: flex;
+	gap: 20px;
+}
+
+.radio-group label {
+	display: flex;
+	align-items: center;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+	margin-right: 8px;
+	margin-bottom: 0;
+}
+
+.input-group input[type="checkbox"] {
+	margin-right: 8px;
+}
+
+.button-group {
+	display: flex;
+	gap: 15px;
+	margin-top: 25px;
+}
+
+.primary-button,
+.secondary-button {
+	padding: 12px 24px;
+	border: none;
+	border-radius: 4px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.primary-button {
+	background-color: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	flex: 1;
+}
+
+.primary-button:hover {
+	background-color: var(--vscode-button-hoverBackground);
+}
+
+.primary-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.secondary-button {
+	background-color: var(--vscode-button-secondaryBackground);
+	color: var(--vscode-button-secondaryForeground);
+	border: 1px solid var(--vscode-button-border);
+}
+
+.secondary-button:hover {
+	background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.output-section {
+	margin-top: 25px;
+}
+
+.message {
+	padding: 12px 16px;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	border: 1px solid transparent;
+}
+
+.message.success {
+	background-color: var(--vscode-testing-iconPassed);
+	color: var(--vscode-editor-background);
+	border-color: var(--vscode-testing-iconPassed);
+}
+
+.message.error {
+	background-color: var(--vscode-errorBackground);
+	color: var(--vscode-errorForeground);
+	border-color: var(--vscode-errorBorder);
+}
+
+.message.info {
+	background-color: var(--vscode-editor-inactiveSelectionBackground);
+	color: var(--vscode-foreground);
+	border-color: var(--vscode-focusBorder);
+}
+
+.git-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.git-branch {
+	font-weight: 600;
+	color: var(--vscode-gitDecoration-modifiedResourceForeground);
+}
+
+.git-status {
+	font-size: 0.9em;
+	color: var(--vscode-descriptionForeground);
+}
+
+.selected-file {
+	background-color: var(--vscode-editor-selectionBackground);
+	padding: 8px 12px;
+	border-radius: 4px;
+	margin-top: 10px;
+	font-family: var(--vscode-editor-font-family);
+	font-size: 0.9em;
+}
+
+@media (max-width: 480px) {
+	.container {
+		padding: 15px;
+	}
+	
+	.button-group {
+		flex-direction: column;
+	}
+	
+	.radio-group {
+		flex-direction: column;
+		gap: 10px;
+	}
+}

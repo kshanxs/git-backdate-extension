@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Extension",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"esbuild"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Watch Extension",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"esbuild-watch"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"isBackground": true,
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		}
+	]
+}

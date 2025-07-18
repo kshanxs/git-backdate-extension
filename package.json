@@ -1,0 +1,115 @@
+{
+  "name": "git-backdate",
+  "displayName": "Git Backdate",
+  "description": "A VS Code extension to commit and push files with backdated timestamps through a beautiful GUI interface",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name",
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/git-backdate-extension.git"
+  },
+  "keywords": [
+    "git",
+    "backdate",
+    "commit",
+    "timestamp",
+    "version control",
+    "gui"
+  ],
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gitBackdate.openPanel",
+        "title": "Git Backdate: Open Panel",
+        "icon": "$(calendar)"
+      },
+      {
+        "command": "gitBackdate.backdateFile",
+        "title": "Backdate This File",
+        "icon": "$(history)"
+      },
+      {
+        "command": "gitBackdate.backdateProject",
+        "title": "Backdate Entire Project",
+        "icon": "$(repo)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "gitBackdate.backdateFile",
+          "when": "!explorerResourceIsFolder",
+          "group": "git"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "gitBackdate.openPanel"
+        },
+        {
+          "command": "gitBackdate.backdateFile"
+        },
+        {
+          "command": "gitBackdate.backdateProject"
+        }
+      ]
+    },
+    "views": {
+      "scm": [
+        {
+          "id": "gitBackdateView",
+          "name": "Git Backdate",
+          "when": "git.state == initialized"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitBackdate",
+          "title": "Git Backdate",
+          "icon": "$(calendar)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npm run check-types && node esbuild.js --production",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "esbuild-base": "node esbuild.js",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4",
+    "esbuild": "^0.17.11"
+  },
+  "dependencies": {
+    "simple-git": "^3.19.1"
+  }
+}

@@ -1,0 +1,36 @@
+/* Additional custom styles */
+.container {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.file-count {
+    font-size: 0.9em;
+    color: var(--vscode-descriptionForeground);
+    margin-top: 5px;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-indicator.connected {
+    background-color: var(--vscode-testing-iconPassed);
+}
+
+.status-indicator.disconnected {
+    background-color: var(--vscode-testing-iconFailed);
+}
