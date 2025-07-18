@@ -61,3 +61,99 @@
     margin-top: 5px;
     font-family: var(--vscode-editor-font-family);
 }
+
+/* Modern Push Option Card */
+.push-option {
+    background-color: var(--vscode-editor-inactiveSelectionBackground);
+    border-radius: 8px;
+    padding: 0;
+    border: 1px solid var(--vscode-input-border);
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.push-option:hover {
+    border-color: var(--vscode-focusBorder);
+    background-color: var(--vscode-input-background);
+}
+
+.push-option.checked {
+    background-color: var(--vscode-button-background);
+    border-color: var(--vscode-button-background);
+}
+
+.push-option.checked .toggle-label {
+    color: var(--vscode-button-foreground);
+}
+
+.push-toggle {
+    padding: 16px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-checkbox {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: var(--vscode-button-background);
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+    color: var(--vscode-foreground);
+    margin: 0;
+    padding: 0;
+    flex: 1;
+}
+
+.toggle-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-icon {
+    font-size: 1.1em;
+    transition: transform 0.2s ease;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-icon {
+    transform: scale(1.1);
+}
+
+/* Enhanced button styles with emojis */
+.primary-button, .secondary-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.primary-button:hover, .secondary-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* File selection improvements */
+.file-selection-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.link-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9em;
+}

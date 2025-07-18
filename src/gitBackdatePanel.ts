@@ -266,37 +266,42 @@ export class GitBackdatePanel {
 
                     <div class="form-section">
                         <div class="input-group">
-                            <label for="commitMessage">Commit Message:</label>
+                            <label for="commitMessage">💬 Commit Message:</label>
                             <input type="text" id="commitMessage" placeholder="Enter your commit message..." required>
                         </div>
 
                         <div class="input-group">
-                            <label for="backdateInput">Backdate to:</label>
+                            <label for="backdateInput">📅 Backdate to:</label>
                             <input type="datetime-local" id="backdateInput" max="" required>
                         </div>
 
                         <div class="input-group">
-                            <label>Select Files to Commit:</label>
+                            <label>📁 Select Files to Commit:</label>
                             <div id="fileCheckboxList" class="file-checkbox-list">
                                 <!-- Checkboxes will be populated here -->
                             </div>
                             <div class="file-selection-actions">
-                                <button type="button" id="selectAllFiles" class="link-button">Select All</button>
-                                <button type="button" id="selectNoneFiles" class="link-button">Select None</button>
-                                <span id="fileCountIndicator" class="file-count">0 files selected</span>
+                                <button type="button" id="selectAllFiles" class="link-button">✅ Select All</button>
+                                <button type="button" id="selectNoneFiles" class="link-button">❌ Select None</button>
+                                <span id="fileCountIndicator" class="file-count">📊 0 files selected</span>
                             </div>
                         </div>
 
-                        <div class="input-group">
-                            <label>
-                                <input type="checkbox" id="pushToRemote">
-                                Push to remote repository after commit
-                            </label>
+                        <div class="input-group push-option">
+                            <div class="push-toggle">
+                                <input type="checkbox" id="pushToRemote" class="toggle-checkbox">
+                                <label for="pushToRemote" class="toggle-label">
+                                    <span class="toggle-text">
+                                        <span class="toggle-icon">🚀</span>
+                                        Push to remote repository after commit
+                                    </span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="button-group">
-                            <button id="backdateBtn" class="primary-button">Create Backdated Commit</button>
-                            <button id="refreshBtn" class="secondary-button">Refresh Files</button>
+                            <button id="backdateBtn" class="primary-button">⏰ Create Backdated Commit</button>
+                            <button id="refreshBtn" class="secondary-button">🔄 Refresh Files</button>
                         </div>
                     </div>
 

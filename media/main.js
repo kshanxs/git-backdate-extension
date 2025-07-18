@@ -52,9 +52,19 @@
             publishBtn.addEventListener('click', handlePublishClick);
         }
 
-        // Show/hide push section based on checkbox
+        // Push option styling and functionality
         pushToRemoteCheckbox.addEventListener('change', function() {
-            pushSection.style.display = this.checked ? 'block' : 'none';
+            const pushOption = document.querySelector('.push-option');
+            if (this.checked) {
+                pushOption.classList.add('checked');
+            } else {
+                pushOption.classList.remove('checked');
+            }
+            
+            // Legacy support for push section (if it exists)
+            if (pushSection) {
+                pushSection.style.display = this.checked ? 'block' : 'none';
+            }
         });
 
         // Form validation
@@ -94,7 +104,7 @@
         const diffMinutes = (now.getTime() - selectedDate.getTime()) / (1000 * 60);
         const isBackdate = diffMinutes > 10;
         
-        const newText = isBackdate ? 'Create Backdated Commit' : 'Create Commit';
+        const newText = isBackdate ? '⏰ Create Backdated Commit' : '✨ Create Commit';
         console.log('Time difference (minutes):', diffMinutes, 'Is backdate:', isBackdate);
         console.log('Updating button text to:', newText);
         backdateBtn.textContent = newText;
@@ -206,7 +216,8 @@
         const totalFiles = fileCheckboxList.querySelectorAll('input[type="checkbox"]').length;
         
         if (fileCountIndicator) {
-            fileCountIndicator.textContent = `${selectedFiles.length} of ${totalFiles} files selected`;
+            const emoji = selectedFiles.length === 0 ? '📭' : selectedFiles.length === totalFiles ? '📦' : '📊';
+            fileCountIndicator.textContent = `${emoji} ${selectedFiles.length} of ${totalFiles} files selected`;
         }
         
         // Debug logging
@@ -217,7 +228,7 @@
         fileCheckboxList.innerHTML = '';
         
         if (!files || files.length === 0) {
-            fileCheckboxList.innerHTML = '<p class="no-files">No modified files found</p>';
+            fileCheckboxList.innerHTML = '<p class="no-files">📂 No modified files found</p>';
             updateFileCount();
             validateForm();
             return;
@@ -291,10 +302,12 @@
         if (!gitStatusDiv) return;
 
         if (status.isGitRepo) {
-            const branchInfo = status.currentBranch ? `Branch: ${status.currentBranch}` : 'No branch';
+            const branchIcon = '🌿';
+            const remoteIcon = status.hasRemote ? (status.hasUpstream ? '🔗' : '🔌') : '📡';
+            const branchInfo = status.currentBranch ? `${branchIcon} ${status.currentBranch}` : '🌿 No branch';
             const remoteInfo = status.hasRemote ? 
-                (status.hasUpstream ? 'Remote: Connected' : 'Remote: No upstream') : 
-                'Remote: None';
+                (status.hasUpstream ? `${remoteIcon} Connected` : `${remoteIcon} No upstream`) : 
+                `${remoteIcon} No remote`;
             
             gitStatusDiv.innerHTML = `
                 <div class="git-info">
@@ -304,7 +317,7 @@
             `;
             gitStatusDiv.classList.add('populated');
         } else {
-            gitStatusDiv.innerHTML = '<div class="git-error">Not a Git repository</div>';
+            gitStatusDiv.innerHTML = '<div class="git-error">❌ Not a Git repository</div>';
             gitStatusDiv.classList.add('populated');
         }
         
@@ -330,29 +343,29 @@
             case 'backdateResult':
                 setLoading(false);
                 if (message.success) {
-                    showMessage('Backdated commit created successfully!', 'success');
+                    showMessage('✅ Backdated commit created successfully!', 'success');
                     requestGitStatus();
                     requestModifiedFiles();
                 } else {
-                    showMessage(`Failed to create backdated commit: ${message.error}`, 'error');
+                    showMessage(`❌ Failed to create backdated commit: ${message.error}`, 'error');
                 }
                 break;
                 
             case 'pushResult':
                 setLoading(false);
                 if (message.success) {
-                    showMessage('Successfully pushed to remote!', 'success');
+                    showMessage('🚀 Successfully pushed to remote!', 'success');
                 } else {
-                    showMessage(`Failed to push: ${message.error}`, 'error');
+                    showMessage(`❌ Failed to push: ${message.error}`, 'error');
                 }
                 break;
                 
             case 'publishResult':
                 setLoading(false);
                 if (message.success) {
-                    showMessage('Successfully published branch!', 'success');
+                    showMessage('🌟 Successfully published branch!', 'success');
                 } else {
-                    showMessage(`Failed to publish: ${message.error}`, 'error');
+                    showMessage(`❌ Failed to publish: ${message.error}`, 'error');
                 }
                 break;
         }
