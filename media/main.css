@@ -34,3 +34,62 @@
 .status-indicator.disconnected {
     background-color: var(--vscode-testing-iconFailed);
 }
+
+.push-section {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: var(--vscode-editor-inactiveSelectionBackground);
+    border-radius: 6px;
+    border-left: 4px solid var(--vscode-focusBorder);
+}
+
+.push-section h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.1em;
+    color: var(--vscode-foreground);
+}
+
+.remote-status {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: var(--vscode-descriptionForeground);
+}
+
+.file-path {
+    font-size: 0.8em;
+    color: var(--vscode-descriptionForeground);
+    margin-top: 5px;
+    font-family: var(--vscode-editor-font-family);
+}
+
+.warning-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: var(--vscode-inputValidation-warningBackground);
+    border-radius: 6px;
+    border-left: 4px solid var(--vscode-inputValidation-warningBorder);
+    color: var(--vscode-inputValidation-warningForeground);
+}
+
+.warning-section h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.1em;
+    color: var(--vscode-inputValidation-warningForeground);
+}
+
+.warning-section ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.warning-section li {
+    margin: 5px 0;
+    list-style-type: none;
+}
+
+.warning-section code {
+    background-color: var(--vscode-textCodeBlock-background);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: var(--vscode-editor-font-family);
+}

@@ -66,6 +66,15 @@ export class GitBackdatePanel {
                     case 'checkGitStatus':
                         await this._sendGitStatus();
                         break;
+                    case 'checkFileHistory':
+                        await this._sendFileHistory(message.filePath);
+                        break;
+                    case 'pushToRemote':
+                        await this._handlePushRequest();
+                        break;
+                    case 'publishBranch':
+                        await this._handlePublishRequest();
+                        break;
                 }
             },
             null,
@@ -78,9 +87,18 @@ export class GitBackdatePanel {
             const options: BackdateOptions = {
                 commitMessage: data.commitMessage,
                 backdateString: data.backdateString,
-                filePath: data.includeAllFiles ? undefined : (data.selectedFile || this._selectedFilePath),
                 includeAllFiles: data.includeAllFiles
             };
+
+            if (!data.includeAllFiles) {
+                if (data.selectedFiles && data.selectedFiles.length > 0) {
+                    // Multiple files selected
+                    options.selectedFiles = data.selectedFiles;
+                } else if (data.selectedFile || this._selectedFilePath) {
+                    // Single file selected (backward compatibility)
+                    options.filePath = data.selectedFile || this._selectedFilePath;
+                }
+            }
 
             await this._gitService.backdateCommit(options);
 
@@ -117,11 +135,15 @@ export class GitBackdatePanel {
         try {
             const isGitRepo = await this._gitService.isGitRepository();
             const currentBranch = isGitRepo ? await this._gitService.getCurrentBranch() : '';
+            const hasRemote = isGitRepo ? await this._gitService.hasRemote() : false;
+            const hasUpstream = isGitRepo && hasRemote ? await this._gitService.hasUpstream() : false;
             
             this._panel.webview.postMessage({
                 type: 'gitStatus',
                 isGitRepo,
                 currentBranch,
+                hasRemote,
+                hasUpstream,
                 selectedFile: this._selectedFilePath
             });
         } catch (error) {
@@ -129,8 +151,56 @@ export class GitBackdatePanel {
                 type: 'gitStatus',
                 isGitRepo: false,
                 currentBranch: '',
+                hasRemote: false,
+                hasUpstream: false,
                 selectedFile: this._selectedFilePath
             });
+        }
+    }
+
+    private async _handlePushRequest() {
+        try {
+            await this._gitService.pushToRemote();
+            this._panel.webview.postMessage({
+                type: 'success',
+                message: 'Successfully pushed to remote repository!'
+            });
+        } catch (error) {
+            this._panel.webview.postMessage({
+                type: 'error',
+                message: error instanceof Error ? error.message : 'Failed to push to remote'
+            });
+        }
+    }
+
+    private async _handlePublishRequest() {
+        try {
+            await this._gitService.publishBranch();
+            this._panel.webview.postMessage({
+                type: 'success',
+                message: 'Successfully published branch to remote repository!'
+            });
+            // Refresh status after publishing
+            await this._sendGitStatus();
+        } catch (error) {
+            this._panel.webview.postMessage({
+                type: 'error',
+                message: error instanceof Error ? error.message : 'Failed to publish branch'
+            });
+        }
+    }
+
+    private async _sendFileHistory(filePath: string) {
+        if (!filePath) return;
+        
+        try {
+            const fileInfo = await this._gitService.getFileLastCommitInfo(filePath);
+            this._panel.webview.postMessage({
+                type: 'fileHistory',
+                fileInfo
+            });
+        } catch (error) {
+            console.error('Failed to get file history:', error);
         }
     }
 
@@ -188,6 +258,11 @@ export class GitBackdatePanel {
 
                     <div id="gitStatus" class="status-section"></div>
 
+                    <div id="warningSection" class="warning-section" style="display: none;">
+                        <h3>⚠️ Warning</h3>
+                        <div id="warningMessage"></div>
+                    </div>
+
                     <div class="form-section">
                         <div class="input-group">
                             <label for="commitMessage">Commit Message:</label>
@@ -207,6 +282,10 @@ export class GitBackdatePanel {
                                     Selected File
                                 </label>
                                 <label>
+                                    <input type="radio" name="scope" value="multiple" id="scopeMultiple">
+                                    Multiple Files
+                                </label>
+                                <label>
                                     <input type="radio" name="scope" value="all" id="scopeAll" checked>
                                     Entire Project
                                 </label>
@@ -220,6 +299,17 @@ export class GitBackdatePanel {
                             </select>
                         </div>
 
+                        <div id="multipleFileSelection" class="input-group" style="display: none;">
+                            <label>Select Files to Commit:</label>
+                            <div id="fileCheckboxList" class="file-checkbox-list">
+                                <!-- Checkboxes will be populated here -->
+                            </div>
+                            <div class="file-selection-actions">
+                                <button type="button" id="selectAllFiles" class="link-button">Select All</button>
+                                <button type="button" id="selectNoneFiles" class="link-button">Select None</button>
+                            </div>
+                        </div>
+
                         <div class="input-group">
                             <label>
                                 <input type="checkbox" id="pushToRemote">
@@ -230,6 +320,14 @@ export class GitBackdatePanel {
                         <div class="button-group">
                             <button id="backdateBtn" class="primary-button">Create Backdated Commit</button>
                             <button id="refreshBtn" class="secondary-button">Refresh Status</button>
+                        </div>
+
+                        <div id="pushSection" class="push-section" style="display: none;">
+                            <h3>Push Options</h3>
+                            <div class="button-group">
+                                <button id="pushBtn" class="secondary-button">Push to Remote</button>
+                                <button id="publishBtn" class="secondary-button">Publish Branch</button>
+                            </div>
                         </div>
                     </div>
 

@@ -80,7 +80,8 @@ header p {
 
 .radio-group {
 	display: flex;
-	gap: 20px;
+	gap: 15px;
+	flex-wrap: wrap;
 }
 
 .radio-group label {
@@ -209,4 +210,61 @@ header p {
 		flex-direction: column;
 		gap: 10px;
 	}
+}
+
+.file-checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--vscode-input-border);
+    border-radius: 4px;
+    padding: 10px;
+    background-color: var(--vscode-input-background);
+}
+
+.file-checkbox-item {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+.file-checkbox-item input[type="checkbox"] {
+    margin-right: 8px;
+    margin-bottom: 0;
+}
+
+.file-checkbox-item label {
+    cursor: pointer;
+    font-weight: normal;
+    margin-bottom: 0;
+    flex: 1;
+    font-family: var(--vscode-editor-font-family);
+    font-size: 0.9em;
+}
+
+.file-selection-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: var(--vscode-textLink-foreground);
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9em;
+    padding: 0;
+}
+
+.link-button:hover {
+    color: var(--vscode-textLink-activeForeground);
+}
+
+.no-files {
+    color: var(--vscode-descriptionForeground);
+    font-style: italic;
+    text-align: center;
+    margin: 10px 0;
 }
